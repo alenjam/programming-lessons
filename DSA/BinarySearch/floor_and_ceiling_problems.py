@@ -25,7 +25,9 @@ array = [1, 3, 5, 7]
 for i in range(9):
     print(i, find_ceiling(array, i))
 print("------------------------------------------------------")
-
+# #####################################################################################################################
+# #####################################################################################################################
+# #####################################################################################################################
 
 # #######################################################################
 # #### 005 Find Floor of a number in an array                       ###
@@ -55,6 +57,10 @@ for i in range(9):
     print(i, find_floor(array, i))
 print("------------------------------------------------------")
 
+# #####################################################################################################################
+# #####################################################################################################################
+# #####################################################################################################################
+
 
 # #######################################################################
 # #### 006 744. Find Smallest Letter Greater Than Target              ###
@@ -78,8 +84,6 @@ print("------------------------------------------------------")
 # # From LHS, we can go to very near the target, hence ord(letters[mid]) <= ord(target)
 
 
-
-
 def next_greatest_letter(letters, target):
     start = 0
     end = len(letters) - 1
@@ -93,10 +97,35 @@ def next_greatest_letter(letters, target):
         return letters[start] if start < len(letters) else letters[0]
 
 
+def next_greatest_letterv2(letters, target):
+    start = 0
+    end = len(letters) - 1
+    while start <= end:
+        mid = start + (end - start) // 2
+        if ord(letters[mid]) < ord(target):
+            start = mid + 1
+        elif ord(letters[mid]) > ord(target):
+            end = mid - 1
+        else:
+            start = mid + 1
+    else:
+        return letters[start] if start < len(letters) else letters[0]
+
+
 print("Question 006")
 letters = ["c", "f", "j"]
 target = "j"
 print(next_greatest_letter(letters, target))
+
+
+print("Question 006")
+letters = ["c", "f", "j"]
+target = "c"
+print(next_greatest_letterv2(letters, target))
+
+# #####################################################################################################################
+# #####################################################################################################################
+# #####################################################################################################################
 
 
 # #######################################################################
@@ -148,7 +177,7 @@ def find_end_pos(nums, target, start, end):
         elif nums[mid] > target:
             end = mid - 1
     else:
-        return end if end>=0 and nums[end] == target else -1
+        return end if end >= 0 and nums[end] == target else -1
 
 
 def find_start_pos(nums, target, start, end):
@@ -159,7 +188,7 @@ def find_start_pos(nums, target, start, end):
         elif nums[mid] >= target:
             end = mid - 1
     else:
-        return start if start<len(nums) and nums[start] == target else -1
+        return start if start < len(nums) and nums[start] == target else -1
 
 
 def search_range(nums, target):
@@ -174,6 +203,43 @@ def search_range(nums, target):
 
 
 print("Question 007")
-nums = [8,8]
+nums = [8, 8]
 target = 8
 print(search_range(nums, target))
+
+# #####################################################################################################################
+# #####################################################################################################################
+# #####################################################################################################################
+
+# Question 7 a small change
+
+def find_start_end(array, target):
+    ans = [-1, -1]
+    ans[0] = find_index(array, target, True)
+    if ans[0] != -1:
+        ans[1] = find_index(array, target, False)
+    return ans
+
+def find_index(array, target, is_finding_leftmost_index):
+    index = -1
+    start = 0
+    end = len(array) - 1
+    while start<=end:
+        mid = start + (end - start)//2
+        if array[mid] > target:
+            end = mid - 1
+        elif array[mid] < target:
+            start = mid + 1
+        else:
+            index = mid
+            if is_finding_leftmost_index:
+                end = mid - 1
+            else:
+                start = mid + 1
+    else:
+        return index
+
+print("Question 007 - more optimized")
+array = [3,8,11,30,30, 30, 50, 50, 50,52]
+for i in list(set(array)) + [1,55]:
+    print(i, find_start_end(array, i))
